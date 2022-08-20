@@ -1,6 +1,6 @@
 .main{
     width:100%;
-    height:200%;
+    height:100%;
     margin-top:10px;
     margin-left:auto;
     margin-right:auto;
@@ -18,6 +18,12 @@
     min-width:fit-content;
     cursor:pointer;
     max-height:308px;
+    display:flex;
+}
+.container-col{
+    margin-left:auto;
+    margin-right:auto;
+    height:fit-content;
 }
 .video-div{
     width:fit-content;
