@@ -124,6 +124,17 @@
     display:none;
     cursor:pointer;
 }
+.user-Img, .bell-img, .video-img{
+    margin-top:auto;
+    margin-bottom:auto;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    cursor:pointer
+}
+.user-authenticated-img{
+    margin-right:10px;
+}
 @media screen and (max-width: 899px) {
     .center-nav form{
         margin:auto;
@@ -142,6 +153,9 @@
     }
     .rn-lup{
         display:block;
+        width:35px;
+        height:35px;
     }
                    
   }
+

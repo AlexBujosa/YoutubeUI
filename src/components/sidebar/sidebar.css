@@ -80,6 +80,11 @@
 }
 .item div p{
     margin-left:25px;
+    margin-top:auto;
+    margin-bottom:auto;
+}
+.item div img{
+    margin:auto;
 }
 .bss{
     margin-top:20px;
