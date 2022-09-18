@@ -4,7 +4,7 @@
     margin-top:10px;
     margin-left:auto;
     margin-right:auto;
-    max-width:1963px;
+    max-width:1720px;
 }
 .container-main{
     width:calc(100% - 10px);
@@ -15,8 +15,7 @@
 .ytd-item-render{
     width:max-content;
     height:fit-content;
-    max-width:300px;
-    min-width:fit-content;
+    min-width:280px;
     cursor:pointer;
     max-height:308px;
     display:flex;
@@ -48,13 +47,13 @@
     word-wrap:break-word;
 }
 .info-div{
-    width:300px;
+    width:max-content;
     min-width:270px;
     color:rgb(172, 166, 166);
     word-wrap:break-word;
 }
 .picture-video{
-    width:300px;
+    width:277.68px;
     height:100%;
 }
 .row{

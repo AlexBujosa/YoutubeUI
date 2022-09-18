@@ -7,6 +7,7 @@ import video from "./videocamara.png";
 import bell from "./bell.png";
 import "./navbar.css";
 import { UserAuth } from "../../context/AuthContext";
+import { UploaderVideo } from "../uploader/Upload";
 export function Navbar(props) {
   const formRef = useRef();
   const inputSearchRef = useRef();
@@ -17,17 +18,24 @@ export function Navbar(props) {
   const submitSearchRef = useRef();
   const [counter, SetCounter] = useState(0);
   const [counterWidth, SetCounterWidth] = useState(0);
+  const [visible, SetVisible] = useState(false);
 
   const { googleSignIn, user } = UserAuth();
   const handleGoogleSignIn = async () => {
     try {
-      console.log(user);
       await googleSignIn();
     } catch (error) {
       console.error(error);
     }
   };
-
+  const openOption = () => {
+    const option = document.getElementById("option");
+    if (option.style.display === "none") {
+      option.style.display = "block";
+    } else {
+      option.style.display = "none";
+    }
+  };
   const OpenSearch = async () => {
     leftArrowRef.current.style = "display:block";
     formRef.current.style = "display:flex";
@@ -88,6 +96,7 @@ export function Navbar(props) {
   });
   return (
     <div className="Navbar">
+      <UploaderVideo visible={visible} SetVisible={SetVisible} />
       <div className="left-nav" ref={leftNav}>
         <img
           src={Wnavbar}
@@ -183,10 +192,25 @@ export function Navbar(props) {
               <img src={bell} alt="bell-img" className="bell-img"></img>
             </div>
             <div className="user-authenticated-img">
-              <img src={video} alt="video-img" className="video-img"></img>
+              <img
+                src={video}
+                alt="video-img"
+                className="video-img"
+                onClick={() => {
+                  SetVisible(true);
+                }}
+              ></img>
             </div>
             <div className="user-authenticated-img">
-              <img src={user.img} alt="user-img" className="user-Img"></img>
+              <img
+                src={user.img}
+                alt="user-img"
+                className="user-Img"
+                referrerPolicy="no-referrer"
+                onClick={() => {
+                  openOption();
+                }}
+              ></img>
             </div>
           </>
         )}
