@@ -1,11 +1,14 @@
 import React from "react";
-import picturetest from "./mira.png";
+//import picturetest from "./mira.png";
+import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { Option } from "../option/option";
 import { UserAuth } from "../../context/AuthContext";
 import "./main.css";
+import { UserVideo } from "../../context/VideoContext";
 export function Main() {
   const { user, logOut } = UserAuth();
+  const { video } = UserVideo();
   return (
     <div className="container-main">
       {user === null ? null : (
@@ -13,390 +16,44 @@ export function Main() {
       )}
       <div className="container-fluid main">
         <Row>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={2} className="ytd-item-render">
-            <div className="container-col">
-              <div className="video-div">
-                <img
-                  src={picturetest}
-                  alt="picturetest"
-                  className="picture-video"
-                ></img>
-              </div>
-              <div className="video-info-container">
-                <div className="title-div">
-                  <span className="title-video">
-                    Mix - Abraham Mateo, Farruko, Christian Daniel - Loco
-                    Enamorado Video Oficial
-                  </span>
-                </div>
-                <div className="info-div">
-                  <span className="Chanel">Abraham Mateo</span>
-                  <br />
-                  <span className="info-video">264 M views 3 years ago</span>
-                </div>
-              </div>
-            </div>
-          </Col>
+          {video == null
+            ? null
+            : video.map((vid) => {
+                return (
+                  <Col
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={2}
+                    className="ytd-item-render"
+                    key={vid._id}
+                  >
+                    <Link to={`/watch/${vid.videofile}`} className="link-to">
+                      <div className="container-col">
+                        <div className="video-div">
+                          <img
+                            src={"http://127.0.0.1:8887/images/" + vid.photo}
+                            alt={vid._id}
+                            className="picture-video"
+                          ></img>
+                        </div>
+                        <div className="video-info-container">
+                          <div className="title-div">
+                            <span className="title-video">{vid.title}</span>
+                          </div>
+                          <div className="info-div">
+                            <span className="Chanel">{vid.name}</span>
+                            <br />
+                            <span className="info-video">
+                              264 M views 3 years ago
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </Col>
+                );
+              })}
         </Row>
       </div>
     </div>

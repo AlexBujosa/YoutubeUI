@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import uploadpng from "./upload.png";
 import uploadgif from "./upload.gif";
 import miniature from "./loadminiature.png";
+import { UserAuth } from "../../context/AuthContext";
 import "./Upload.css";
 export function UploaderVideo({ visible, SetVisible }) {
   const fileRef = useRef();
@@ -10,7 +11,6 @@ export function UploaderVideo({ visible, SetVisible }) {
   const btnSelectRef = useRef();
   const DetailsRef = useRef();
   const containerRef = useRef();
-  const fooRef = useRef();
   //Send input
   const titleRef = useRef();
   const descriptionRef = useRef();
@@ -18,17 +18,20 @@ export function UploaderVideo({ visible, SetVisible }) {
   //Intermediary input
   const titleTextAreaRef = useRef();
   const descriptionTextAreaRef = useRef();
+  // UserAuth
+  const { user } = UserAuth();
 
+  // State for transition Upload
   const [sendingVideo, SetSendingVideo] = useState(0);
   const [video, SetVideo] = useState(null);
   const arrItem = [uploadpng, uploadgif];
   const [count, SetCount] = useState(0);
-  const fileSearch = () => {
-    fileRef.current.click();
-  };
+
   const SendVideo = (e) => {
     e.preventDefault();
-    const formData = new FormData(fooRef);
+    const formData = new FormData(e.target);
+    formData.append("email", user.email);
+    formData.append("name", user.name);
     fetch("http://localhost:4000/upload/file", {
       method: "POST",
       body: formData,
@@ -44,6 +47,7 @@ export function UploaderVideo({ visible, SetVisible }) {
         }
       });
   };
+
   const resetFileV = () => {
     fileRef.current.value = "";
     titleRef.current.value = "";
@@ -78,12 +82,10 @@ export function UploaderVideo({ visible, SetVisible }) {
     reader.onload = function(e) {
       SetVideo(e.target.result);
     };
-    console.log(miniatureRef.current.files[0]);
     reader.readAsDataURL(miniatureRef.current.files[0]);
   };
 
   const onChangeInputFile = (e) => {
-    console.log(fileRef.current.value);
     e.preventDefault();
     SetSendingVideo(sendingVideo + 1);
     setTimeout(() => {
@@ -157,10 +159,6 @@ export function UploaderVideo({ visible, SetVisible }) {
                   <div className="img-upload">
                     <div
                       className="circle-range-upload"
-                      onClick={() => {
-                        debugger;
-                        fileSearch();
-                      }}
                       onDragEnter={(e) => {
                         onDragEnter(e);
                       }}
@@ -181,59 +179,60 @@ export function UploaderVideo({ visible, SetVisible }) {
                           onDropTest(e);
                         }}
                       ></img>
-                    </div>
-                    <form
-                      onSubmit={(e) => {
-                        SendVideo(e);
-                      }}
-                      id="foo"
-                      encType="multipart/form-data"
-                      className="form-sender"
-                    >
-                      <input
-                        id="miniature"
-                        type="file"
-                        accept="image/png, image/gif, image/jpeg, image/jpg, image/*"
-                        style={{ display: "none" }}
-                        ref={miniatureRef}
-                        name="miniature"
-                        onChange={() => {
-                          onChangeImgInputFile();
-                        }}
-                      ></input>
-                      <input
-                        type="file"
-                        id="file"
-                        accept="video/mp4,video/x-m4v,video/*"
-                        ref={fileRef}
-                        name="file"
-                        onChange={(e) => {
-                          onChangeInputFile(e);
-                        }}
-                      ></input>
 
-                      <input
-                        type="text"
-                        id="title"
-                        style={{ display: "none" }}
-                        ref={titleRef}
-                        name="title"
-                      ></input>
-                      <input
-                        type="text"
-                        id="description"
-                        style={{ display: "none" }}
-                        ref={descriptionRef}
-                        name="description"
-                      ></input>
-                      <button
-                        type="submit"
-                        className="btnsubmit"
-                        ref={submitRef}
+                      <form
+                        onSubmit={(e) => {
+                          SendVideo(e);
+                        }}
+                        id="foo"
+                        encType="multipart/form-data"
+                        className="form-sender"
                       >
-                        Subir Video
-                      </button>
-                    </form>
+                        <input
+                          id="miniature"
+                          type="file"
+                          accept="image/png, image/gif, image/jpeg, image/jpg, image/*"
+                          style={{ display: "none" }}
+                          ref={miniatureRef}
+                          name="miniature"
+                          onChange={() => {
+                            onChangeImgInputFile();
+                          }}
+                        ></input>
+                        <input
+                          type="file"
+                          id="file"
+                          accept="video/mp4,video/x-m4v,video/*"
+                          ref={fileRef}
+                          name="file"
+                          onChange={(e) => {
+                            onChangeInputFile(e);
+                          }}
+                        ></input>
+
+                        <input
+                          type="text"
+                          id="title"
+                          style={{ display: "none" }}
+                          ref={titleRef}
+                          name="title"
+                        ></input>
+                        <input
+                          type="text"
+                          id="description"
+                          style={{ display: "none" }}
+                          ref={descriptionRef}
+                          name="description"
+                        ></input>
+                        <button
+                          type="submit"
+                          className="btnsubmit"
+                          ref={submitRef}
+                        >
+                          Subir Video
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
                 <div className="div-select-files-button" ref={btnSelectRef}>
