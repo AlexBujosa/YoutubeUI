@@ -2,18 +2,12 @@ import React from "react";
 //import picturetest from "./mira.png";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-import { Option } from "../option/option";
-import { UserAuth } from "../../context/AuthContext";
 import "./main.css";
 import { UserVideo } from "../../context/VideoContext";
 export function Main() {
-  const { user, logOut } = UserAuth();
   const { video } = UserVideo();
   return (
     <div className="container-main">
-      {user === null ? null : (
-        <Option img={user.img} name={user.name} logOut={logOut} />
-      )}
       <div className="container-fluid main">
         <Row>
           {video == null

@@ -8,6 +8,7 @@ import bell from "./bell.png";
 import "./navbar.css";
 import { UserAuth } from "../../context/AuthContext";
 import { UploaderVideo } from "../uploader/Upload";
+import { Link } from "react-router-dom";
 export function Navbar(props) {
   const formRef = useRef();
   const inputSearchRef = useRef();
@@ -105,10 +106,10 @@ export function Navbar(props) {
           title="sidebar"
           onClick={props.openSidebar}
         ></img>
-        <div className="logo-youtube" title="Home">
+        <Link to="/" className="link-to logo-youtube" title="Home">
           <img src={Youtube} alt="youtube" className="youtube"></img>
           <p>Youtube</p>
-        </div>
+        </Link>
       </div>
       <div className="center-nav">
         <form ref={formRef}>

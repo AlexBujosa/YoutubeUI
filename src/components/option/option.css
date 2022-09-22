@@ -1,8 +1,9 @@
 .option{
     position:fixed;
+    top:60px;
     width:298px;
     max-width:298px;
-    height:728px;
+    height:520px;
     right:40px;
     left:auto;
     background-color: #0f0f0f;
