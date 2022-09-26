@@ -161,3 +161,7 @@
 [contentEditable=true]:empty:not(:focus):before {
     content: attr(data-text)
   }
+
+.main-upload{
+    z-index:1000;
+}

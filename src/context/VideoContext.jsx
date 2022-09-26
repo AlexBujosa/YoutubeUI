@@ -26,7 +26,6 @@ export const VideoContextProvider = ({ children }) => {
   useEffect(() => {
     if (video === null) {
       GetVideo().then((res) => {
-        console.log(res.videos);
         setVideo(res.videos);
       });
     }

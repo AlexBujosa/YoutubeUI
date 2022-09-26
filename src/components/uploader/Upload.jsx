@@ -32,6 +32,7 @@ export function UploaderVideo({ visible, SetVisible }) {
     const formData = new FormData(e.target);
     formData.append("email", user.email);
     formData.append("name", user.name);
+    formData.append("photo", user.img);
     fetch("http://localhost:4000/upload/file", {
       method: "POST",
       body: formData,
