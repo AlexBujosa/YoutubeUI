@@ -17,7 +17,7 @@ export function Option({ img, name, logOut }) {
         </div>
       </div>
       <div className="body-option">
-        <div className="item-header" onClick={logOut}>
+        <div className="item-header">
           <div className="item-header-contents">
             <div className="img-left">
               <img

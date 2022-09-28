@@ -19,7 +19,7 @@ export function UploaderVideo({ visible, SetVisible }) {
   const titleTextAreaRef = useRef();
   const descriptionTextAreaRef = useRef();
   // UserAuth
-  const { user } = UserAuth();
+  const { user, id } = UserAuth();
 
   // State for transition Upload
   const [sendingVideo, SetSendingVideo] = useState(0);
@@ -33,6 +33,7 @@ export function UploaderVideo({ visible, SetVisible }) {
     formData.append("email", user.email);
     formData.append("name", user.name);
     formData.append("photo", user.img);
+    formData.append("userId", id);
     fetch("http://localhost:4000/upload/file", {
       method: "POST",
       body: formData,

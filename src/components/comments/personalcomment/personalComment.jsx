@@ -10,20 +10,6 @@ export function PersonalComment({
 }) {
   const [_, setWindowsWidthDimension] = useState(window.innerWidth);
   const [comment, setComment] = useState("");
-  var month = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
   const commentRef = useRef();
   const [moreComment, setMoreComment] = useState(false);
   const [counter, setCounter] = useState(0);

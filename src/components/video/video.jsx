@@ -7,26 +7,45 @@ import dislikeButton from "./dislike.png";
 import shareButton from "./share.png";
 import saveButton from "./save.png";
 import { Comments } from "../comments/comment";
-export function Video({ url }) {
-  var month = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+import { UserAuth } from "../../context/AuthContext";
+import { getViews } from "../../getviews";
+import { month } from "../../moth";
+export function Video({ url, userId }) {
   const [_, setWindowsWidthDimension] = useState(window.innerWidth);
+  const [views, setViews] = useState(0);
   const [videoWidth, setVideoWidth] = useState(0);
-  const { video } = UserVideo();
+  const { video, videoViews } = UserVideo();
+  const { user, id } = UserAuth();
   const videoRef = useRef();
+
+  const regView = () => {
+    fetch("http://localhost:4000/register/views", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        videoId: url,
+        userId: id,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   useEffect(() => {
+    getViews(url).then((res) => {
+      setViews(res);
+    });
+
+    if (userId !== null) regView();
     function handleResize() {
       setWindowsWidthDimension((oldWindowsWidth) => {
         if (oldWindowsWidth != window.innerWidth) {
@@ -77,7 +96,7 @@ export function Video({ url }) {
                             <p>{vid.title}</p>
                             <div className="ytd-video-primary-actions-buttons">
                               <div className="info-text">
-                                31,418 vistas •{" "}
+                                {views} {views > 1 ? "vistas" : "vista"} •{" "}
                                 {new Date(vid.createdAt).getDate()}{" "}
                                 {month[new Date(vid.createdAt).getMonth()]}{" "}
                                 {new Date(vid.createdAt).getFullYear()}
@@ -122,9 +141,11 @@ export function Video({ url }) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="suscribe-buttons">
-                                <button>Suscribirse</button>
-                              </div>
+                              {id !== vid.userId ? (
+                                <div className="suscribe-buttons">
+                                  <button>Suscribirse</button>
+                                </div>
+                              ) : null}
                             </div>
                             <div className="content">{vid.description}</div>
                           </div>
@@ -163,7 +184,16 @@ export function Video({ url }) {
                                 <div className="userViewinfo-div">
                                   <div className="user-upload">{vid.name}</div>
                                   <div className="video-views">
-                                    270 Mill. Views
+                                    {
+                                      <>
+                                        {
+                                          videoViews.filter(
+                                            (videoId) => videoId === vid._id
+                                          ).length
+                                        }
+                                      </>
+                                    }
+                                    {" vistas "}
                                   </div>
                                 </div>
                               </div>

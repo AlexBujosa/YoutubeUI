@@ -1,16 +1,16 @@
 import React from "react";
-//import picturetest from "./mira.png";
+import { month } from "../../moth";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import "./main.css";
 import { UserVideo } from "../../context/VideoContext";
 export function Main() {
-  const { video } = UserVideo();
+  const { video, videoViews } = UserVideo();
   return (
     <div className="container-main">
       <div className="container-fluid main">
         <Row>
-          {video == null
+          {video === null || videoViews === null
             ? null
             : video.map((vid) => {
                 return (
@@ -39,7 +39,19 @@ export function Main() {
                             <span className="Chanel">{vid.name}</span>
                             <br />
                             <span className="info-video">
-                              264 M views 3 years ago
+                              {
+                                <>
+                                  {
+                                    videoViews.filter(
+                                      (videoId) => videoId === vid._id
+                                    ).length
+                                  }
+                                </>
+                              }
+                              {" vistas "}
+                              {new Date(vid.createdAt).getDate()}{" "}
+                              {month[new Date(vid.createdAt).getMonth()]}{" "}
+                              {new Date(vid.createdAt).getFullYear()}
                             </span>
                           </div>
                         </div>
