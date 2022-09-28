@@ -61,6 +61,7 @@ export function UploaderVideo({ visible, SetVisible }) {
   const CloseModal = () => {
     resetFileV();
     SetVisible(false);
+    SetCount(0);
   };
 
   const finishUpload = () => {

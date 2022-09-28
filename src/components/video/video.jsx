@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./video.css";
 import { UserVideo } from "../../context/VideoContext";
 import { Link } from "react-router-dom";
@@ -6,14 +6,37 @@ import likeButton from "./like.png";
 import dislikeButton from "./dislike.png";
 import shareButton from "./share.png";
 import saveButton from "./save.png";
-import { useRef, useState, useEffect } from "react";
 import { Comments } from "../comments/comment";
 export function Video({ url }) {
+  var month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const [_, setWindowsWidthDimension] = useState(window.innerWidth);
   const [videoWidth, setVideoWidth] = useState(0);
   const { video } = UserVideo();
   const videoRef = useRef();
   useEffect(() => {
-    setVideoWidth(videoRef.current.offsetWidth);
+    function handleResize() {
+      setWindowsWidthDimension((oldWindowsWidth) => {
+        if (oldWindowsWidth != window.innerWidth) {
+          setVideoWidth(videoRef.current.offsetWidth);
+          return window.innerWidth;
+        }
+      });
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("rezise", handleResize);
   }, []);
   return (
     <>
@@ -29,22 +52,35 @@ export function Video({ url }) {
                 id="fm-video"
                 ref={videoRef}
               >
-                <source
-                  src={"http://127.0.0.1:8887/uploads/" + url}
-                  type="video/mp4"
-                />
+                {video == null
+                  ? null
+                  : video.map((vid) => {
+                      if (vid._id == url) {
+                        return (
+                          <source
+                            src={
+                              "http://127.0.0.1:8887/uploads/" + vid.videofile
+                            }
+                            type="video/mp4"
+                          />
+                        );
+                      }
+                    })}
               </video>
               {video == null
                 ? null
                 : video.map((vid) => {
-                    if (vid.videofile == url) {
+                    if (vid._id == url) {
                       return (
                         <>
                           <div className="ytd-video-primary-info-rendered">
                             <p>{vid.title}</p>
                             <div className="ytd-video-primary-actions-buttons">
                               <div className="info-text">
-                                31,418 vistas • 26 feb 2021
+                                31,418 vistas •{" "}
+                                {new Date(vid.createdAt).getDate()}{" "}
+                                {month[new Date(vid.createdAt).getMonth()]}{" "}
+                                {new Date(vid.createdAt).getFullYear()}
                               </div>
                               <div className="action-tools">
                                 <div className="container-tools">
@@ -92,20 +128,23 @@ export function Video({ url }) {
                             </div>
                             <div className="content">{vid.description}</div>
                           </div>
+                          <Comments
+                            onVideoWidth={videoWidth}
+                            onVideoId={vid._id}
+                          />
                         </>
                       );
                     }
                   })}
-              <Comments onVideoWidth={videoWidth} />
             </div>
             <div className="right-side">
               {video == null
                 ? null
                 : video.map((vid) => {
-                    if (vid.videofile != url) {
+                    if (vid._id != url) {
                       return (
                         <Link
-                          to={`/watch/${vid.videofile}`}
+                          to={`/watch/${vid._id}`}
                           reloadDocument
                           className="link-to"
                           key={vid._id}

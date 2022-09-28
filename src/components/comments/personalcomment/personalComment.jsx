@@ -1,20 +1,57 @@
 import React, { useRef, useEffect, useState } from "react";
-export function PersonalComment({ onVideoWidth }) {
+import { timeago } from "../../../timeago";
+export function PersonalComment({
+  onVideoWidth,
+  onCommentId,
+  onChannelName,
+  onPublishComment,
+  onComment,
+  onUserImg,
+}) {
+  const [_, setWindowsWidthDimension] = useState(window.innerWidth);
+  const [comment, setComment] = useState("");
+  var month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   const commentRef = useRef();
   const [moreComment, setMoreComment] = useState(false);
   const [counter, setCounter] = useState(0);
   const spanContent = ["Show More", "Show Less"];
   const className = ["div-comment-more", "div-comment-less"];
   useEffect(() => {
+    function handleResize() {
+      setWindowsWidthDimension((oldWindowsWidth) => {
+        if (oldWindowsWidth !== window.innerWidth) {
+          setMoreComment(commentRef.current.scrollHeight > 62);
+          return window.innerWidth;
+        }
+      });
+    }
     setMoreComment(commentRef.current.scrollHeight > 62);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("rezise", handleResize);
+  }, []);
+  useEffect(() => {
+    setComment(timeago(onPublishComment));
   }, []);
   return (
-    <div className="ytd-comments-thread-renderer">
+    <div className="ytd-comments-thread-renderer" key={onCommentId}>
       <div className="ytd-comments-renderer">
         <div className="style-scope ytd-comments-renderer">
           <div className="authorImg ytd-comments-renderer">
             <img
-              src="https://lh3.googleusercontent.com/a-/AFdZucoNvT-I0n2tcZT9WK-zj2lCbyZEd0e_5RiwRw4n=s96-c"
+              src={onUserImg}
               width="30px"
               height="30px"
               className="userImg"
@@ -22,8 +59,8 @@ export function PersonalComment({ onVideoWidth }) {
           </div>
           <div className="main-ytd-comments-renderer">
             <div className="header">
-              <p className="channel-name">AlexBj</p>
-              <p className="publish-comment">hace 2 semanas</p>
+              <p className="channel-name">{onChannelName}</p>
+              <p className="publish-comment">{comment}</p>
             </div>
             <div
               className="comment-content"
@@ -31,15 +68,7 @@ export function PersonalComment({ onVideoWidth }) {
               id="comentario-f1"
             >
               <div className={className[counter % 2]} ref={commentRef}>
-                A lot of people probably didn't expect to feel real and
-                relatable emotions in this show, especially Gojo's struggle and
-                fears. Gojo is the perfect MC for this genre, in fact, I could
-                say he's the best and most realistic out of all the lads in the
-                genre. Gojo is the perfect MC for this genre, in fact, I could
-                say he's the best and most realistic out of all the lads in the
-                genre. Gojo is the perfect MC for this genre, in fact, I could
-                say he's the best and most realistic out of all the lads in the
-                genre.
+                {onComment}
               </div>
               {moreComment ? (
                 <span

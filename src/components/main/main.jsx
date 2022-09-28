@@ -22,7 +22,7 @@ export function Main() {
                     className="ytd-item-render"
                     key={vid._id}
                   >
-                    <Link to={`/watch/${vid.videofile}`} className="link-to">
+                    <Link to={`/watch/${vid._id}`} className="link-to">
                       <div className="container-col">
                         <div className="video-div">
                           <img
