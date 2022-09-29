@@ -71,6 +71,7 @@ export const AuthContextProvider = ({ children }) => {
         console.error(error);
       });
   };
+
   const logOut = () => {
     signOut(auth);
   };

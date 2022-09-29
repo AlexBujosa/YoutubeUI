@@ -6,6 +6,7 @@ export const VideoContextProvider = ({ children }) => {
   const [video, setVideo] = useState(null);
   const [_, SetCounter] = useState(0);
   const [videoViews, setVideoViews] = useState(null);
+  const [suscribedChannel, setSuscribedChannel] = useState(null);
   const GetVideo = () => {
     return fetch("http://localhost:4000/", {
       method: "GET",
@@ -57,7 +58,15 @@ export const VideoContextProvider = ({ children }) => {
     });
   }, []);
   return (
-    <VideoContext.Provider value={{ video, loadMoreVideos, videoViews }}>
+    <VideoContext.Provider
+      value={{
+        video,
+        loadMoreVideos,
+        videoViews,
+        suscribedChannel,
+        setSuscribedChannel,
+      }}
+    >
       {children}
     </VideoContext.Provider>
   );

@@ -7,15 +7,20 @@ import dislikeButton from "./dislike.png";
 import shareButton from "./share.png";
 import saveButton from "./save.png";
 import { Comments } from "../comments/comment";
-import { UserAuth } from "../../context/AuthContext";
 import { getViews } from "../../getviews";
 import { month } from "../../moth";
+import { UserAuth } from "../../context/AuthContext";
 export function Video({ url, userId }) {
   const [_, setWindowsWidthDimension] = useState(window.innerWidth);
   const [views, setViews] = useState(0);
   const [videoWidth, setVideoWidth] = useState(0);
-  const { video, videoViews } = UserVideo();
-  const { user, id } = UserAuth();
+  const {
+    video,
+    videoViews,
+    suscribedChannel,
+    setSuscribedChannel,
+  } = UserVideo();
+  const { id } = UserAuth();
   const videoRef = useRef();
 
   const regView = () => {
@@ -27,7 +32,7 @@ export function Video({ url, userId }) {
       },
       body: JSON.stringify({
         videoId: url,
-        userId: id,
+        userId: userId,
       }),
     })
       .then((res) => {
@@ -40,7 +45,57 @@ export function Video({ url, userId }) {
         console.error(error);
       });
   };
+  const GetAllSuscribedChannels = () => {
+    if (userId === null) return;
+    fetch("http://localhost:4000/getAllSuscribeChannel", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        setSuscribedChannel(res.channelsSuscribed);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const suscribe = (userUploaderVideo) => {
+    if (userId === null) return;
+    fetch("http://localhost:4000/suscribe", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        secUserId: userUploaderVideo,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.msg === "Subscribed user") {
+          setSuscribedChannel((oldSuscribedChannel) => {
+            return [...oldSuscribedChannel, userUploaderVideo];
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   useEffect(() => {
+    GetAllSuscribedChannels();
     getViews(url).then((res) => {
       setViews(res);
     });
@@ -71,7 +126,7 @@ export function Video({ url, userId }) {
                 id="fm-video"
                 ref={videoRef}
               >
-                {video == null
+                {video === null
                   ? null
                   : video.map((vid) => {
                       if (vid._id == url) {
@@ -89,7 +144,7 @@ export function Video({ url, userId }) {
               {video == null
                 ? null
                 : video.map((vid) => {
-                    if (vid._id == url) {
+                    if (vid._id === url) {
                       return (
                         <>
                           <div className="ytd-video-primary-info-rendered">
@@ -141,9 +196,28 @@ export function Video({ url, userId }) {
                                   </p>
                                 </div>
                               </div>
-                              {id !== vid.userId ? (
+                              {console.log(
+                                userId !== vid.userId &&
+                                  suscribedChannel !== null
+                              )}
+                              {userId !== vid.userId &&
+                              suscribedChannel !== null ? (
                                 <div className="suscribe-buttons">
-                                  <button>Suscribirse</button>
+                                  {suscribedChannel.filter(
+                                    (suscribed) => suscribed === vid.userId
+                                  ).length === 0 ? (
+                                    <button
+                                      onClick={() => {
+                                        suscribe(vid.userId);
+                                      }}
+                                    >
+                                      Suscribirse
+                                    </button>
+                                  ) : (
+                                    <div className="already-suscriber">
+                                      <p>Suscrito</p>
+                                    </div>
+                                  )}
                                 </div>
                               ) : null}
                             </div>
@@ -184,7 +258,7 @@ export function Video({ url, userId }) {
                                 <div className="userViewinfo-div">
                                   <div className="user-upload">{vid.name}</div>
                                   <div className="video-views">
-                                    {
+                                    {videoViews !== null ? (
                                       <>
                                         {
                                           videoViews.filter(
@@ -192,7 +266,7 @@ export function Video({ url, userId }) {
                                           ).length
                                         }
                                       </>
-                                    }
+                                    ) : null}
                                     {" vistas "}
                                   </div>
                                 </div>
