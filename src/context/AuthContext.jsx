@@ -10,6 +10,8 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [id, SetId] = useState(null);
   const [user, SetUser] = useState(null);
+  const [suscribedChannel, setSuscribedChannel] = useState(null);
+  const [count, setCount] = useState(0);
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider).then(() => {
@@ -66,6 +68,28 @@ export const AuthContextProvider = ({ children }) => {
       })
       .then((res) => {
         SetId(res.auth._id);
+        GetAllSuscribedChannels(res.auth._id);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const GetAllSuscribedChannels = (auth_id) => {
+    fetch("http://localhost:4000/getAllSuscribeChannel", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: auth_id,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        setSuscribedChannel(res.channelsSuscribed);
       })
       .catch((error) => {
         console.error(error);
@@ -83,15 +107,27 @@ export const AuthContextProvider = ({ children }) => {
           email: currentUser.email,
           img: currentUser.photoURL,
         });
+        setCount(1);
         getAuth(currentUser.email);
       } else {
+        setCount(-1);
         SetUser(null);
       }
     });
     return unsubscribe;
   }, []);
   return (
-    <AuthContext.Provider value={{ googleSignIn, logOut, user, id }}>
+    <AuthContext.Provider
+      value={{
+        googleSignIn,
+        logOut,
+        user,
+        id,
+        count,
+        suscribedChannel,
+        setSuscribedChannel,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

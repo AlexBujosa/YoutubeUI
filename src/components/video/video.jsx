@@ -14,16 +14,13 @@ export function Video({ url, userId }) {
   const [_, setWindowsWidthDimension] = useState(window.innerWidth);
   const [views, setViews] = useState(0);
   const [videoWidth, setVideoWidth] = useState(0);
-  const {
-    video,
-    videoViews,
-    suscribedChannel,
-    setSuscribedChannel,
-  } = UserVideo();
-  const { id } = UserAuth();
+  const { video, videoViews } = UserVideo();
+  const [counter, setCounter] = useState(0);
+  const { count, suscribedChannel, setSuscribedChannel } = UserAuth();
   const videoRef = useRef();
 
   const regView = () => {
+    if (userId === null) return;
     fetch("http://localhost:4000/register/views", {
       method: "POST",
       mode: "cors",
@@ -45,23 +42,22 @@ export function Video({ url, userId }) {
         console.error(error);
       });
   };
-  const GetAllSuscribedChannels = () => {
-    if (userId === null) return;
-    fetch("http://localhost:4000/getAllSuscribeChannel", {
+  const getVideoSuscriber = (userUploaderVideo) => {
+    fetch("http://localhost:4000/getVideoSuscriber", {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: userId,
+        secUserId: userUploaderVideo,
       }),
     })
       .then((res) => {
         return res.json();
       })
       .then((res) => {
-        setSuscribedChannel(res.channelsSuscribed);
+        setCounter(res.countSuscriber);
       })
       .catch((error) => {
         console.error(error);
@@ -94,8 +90,36 @@ export function Video({ url, userId }) {
         console.error(error);
       });
   };
+  const unSuscribe = (userUploaderVideo) => {
+    if (userId === null) return;
+    fetch("http://localhost:4000/unsuscribe", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        secUserId: userUploaderVideo,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.msg === "Unsubscribed user") {
+          setSuscribedChannel((oldSuscribedChannel) => {
+            return oldSuscribedChannel.filter(
+              (Element) => Element != userUploaderVideo
+            );
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   useEffect(() => {
-    GetAllSuscribedChannels();
     getViews(url).then((res) => {
       setViews(res);
     });
@@ -145,6 +169,7 @@ export function Video({ url, userId }) {
                 ? null
                 : video.map((vid) => {
                     if (vid._id === url) {
+                      getVideoSuscriber(vid.userId);
                       return (
                         <>
                           <div className="ytd-video-primary-info-rendered">
@@ -192,15 +217,15 @@ export function Video({ url, userId }) {
                                 <div className="info-channel">
                                   <p className="channel-name">{vid.name}</p>
                                   <p className="channel-suscribers">
-                                    6,950 suscriptores
+                                    {counter}{" "}
+                                    {counter > 1
+                                      ? "suscriptores"
+                                      : "suscriptor"}
                                   </p>
                                 </div>
                               </div>
-                              {console.log(
-                                userId !== vid.userId &&
-                                  suscribedChannel !== null
-                              )}
-                              {userId !== vid.userId &&
+                              {count === 1 &&
+                              userId !== vid.userId &&
                               suscribedChannel !== null ? (
                                 <div className="suscribe-buttons">
                                   {suscribedChannel.filter(
@@ -214,7 +239,12 @@ export function Video({ url, userId }) {
                                       Suscribirse
                                     </button>
                                   ) : (
-                                    <div className="already-suscriber">
+                                    <div
+                                      className="already-suscriber"
+                                      onClick={() => {
+                                        unSuscribe(vid.userId);
+                                      }}
+                                    >
                                       <p>Suscrito</p>
                                     </div>
                                   )}
