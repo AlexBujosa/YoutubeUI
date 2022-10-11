@@ -221,6 +221,7 @@ export function Video({ url, userId }) {
       });
   };
   useEffect(() => {
+    getVideoLikes();
     getViews(url).then((res) => {
       setViews(res);
     });
@@ -258,7 +259,6 @@ export function Video({ url, userId }) {
                   ? null
                   : video.map((vid) => {
                       if (vid._id == url) {
-                        getVideoLikes();
                         getVideoSuscriber(vid.userId);
                         return (
                           <source
