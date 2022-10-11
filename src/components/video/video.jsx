@@ -18,7 +18,53 @@ export function Video({ url, userId }) {
   const [counter, setCounter] = useState(0);
   const { count, suscribedChannel, setSuscribedChannel } = UserAuth();
   const videoRef = useRef();
-
+  const getMyLike = () => {
+    if (userId === null) return;
+    fetch("http://localhost:4000/getMyVideoLike", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        videoId: url,
+        userId: userId,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const sendLikeOrDislike = (typeLike) => {
+    if (userId === null) return;
+    fetch("http://localhost:4000/like", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        videoId: url,
+        userId: userId,
+        typeLike: typeLike,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const regView = () => {
     if (userId === null) return;
     fetch("http://localhost:4000/register/views", {
@@ -120,6 +166,7 @@ export function Video({ url, userId }) {
       });
   };
   useEffect(() => {
+    getMyLike();
     getViews(url).then((res) => {
       setViews(res);
     });
@@ -183,11 +230,21 @@ export function Video({ url, userId }) {
                               </div>
                               <div className="action-tools">
                                 <div className="container-tools">
-                                  <div className="like action-button">
+                                  <div
+                                    className="like action-button"
+                                    onClick={() => {
+                                      sendLikeOrDislike(true);
+                                    }}
+                                  >
                                     <img src={likeButton}></img>
                                     <b>0</b>
                                   </div>
-                                  <div className="dislike action-button">
+                                  <div
+                                    className="dislike action-button"
+                                    onClick={() => {
+                                      sendLikeOrDislike(false);
+                                    }}
+                                  >
                                     <img src={dislikeButton}></img>
                                     <b>No me gusta</b>
                                   </div>
