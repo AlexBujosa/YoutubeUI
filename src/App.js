@@ -19,12 +19,15 @@ function App({onComponentRender}) {
     sideRef.current.classList.add('close');
   }
   useEffect(() => {
+    /*
     setInterval(()=>{
         if (document.activeElement !== inputHiddenRef.current) {
             CloseSidebar();
         }
 
-    },8000)})
+    },8000)
+    */
+  })
   return (
     <div className="App">
       {user === null ? null : (

@@ -3,6 +3,8 @@ import "./video.css";
 import { UserVideo } from "../../context/VideoContext";
 import { Link } from "react-router-dom";
 import likeButton from "./like.png";
+import userLikeButton from "./userLike.png";
+import userDisLikeButton from "./userDislike.png";
 import dislikeButton from "./dislike.png";
 import shareButton from "./share.png";
 import saveButton from "./save.png";
@@ -15,12 +17,41 @@ export function Video({ url, userId }) {
   const [views, setViews] = useState(0);
   const [videoWidth, setVideoWidth] = useState(0);
   const { video, videoViews } = UserVideo();
+  const [statusLike, setStatusLike] = useState(null);
   const [counter, setCounter] = useState(0);
+  const [counterLikes, setCounterLikes] = useState(0);
   const { count, suscribedChannel, setSuscribedChannel } = UserAuth();
   const videoRef = useRef();
-  const getMyLike = () => {
+  const updateStatus = (status, typeLike) => {
+    if (status === "sucessfull deleted") {
+      if (statusLike === true) {
+        setCounterLikes((oldCounterLike) => {
+          return oldCounterLike - 1;
+        });
+      }
+      setStatusLike(null);
+    } else if (
+      (status === "sucessfull" || status === "sucessfull updated") &&
+      typeLike === true
+    ) {
+      setCounterLikes((oldCounterLike) => {
+        return oldCounterLike + 1;
+      });
+      setStatusLike(true);
+    } else if (
+      (status === "sucessfull" || status === "sucessfull updated") &&
+      typeLike === false
+    ) {
+      setCounterLikes((oldCounterLike) => {
+        if (statusLike !== true || oldCounterLike === 0) return oldCounterLike;
+        return oldCounterLike - 1;
+      });
+      setStatusLike(false);
+    }
+  };
+  const getMyLike = async () => {
     if (userId === null) return;
-    fetch("http://localhost:4000/getMyVideoLike", {
+    await fetch("http://localhost:4000/getMyVideoLike", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -35,6 +66,29 @@ export function Video({ url, userId }) {
         return res.json();
       })
       .then((res) => {
+        setStatusLike(res.status);
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const getVideoLikes = async () => {
+    await fetch("http://localhost:4000/getVideoLikes", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        videoId: url,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        setCounterLikes(res.counterLikes);
         console.log(res);
       })
       .catch((error) => {
@@ -59,6 +113,7 @@ export function Video({ url, userId }) {
         return res.json();
       })
       .then((res) => {
+        updateStatus(res.msg, typeLike);
         console.log(res);
       })
       .catch((error) => {
@@ -166,7 +221,6 @@ export function Video({ url, userId }) {
       });
   };
   useEffect(() => {
-    getMyLike();
     getViews(url).then((res) => {
       setViews(res);
     });
@@ -183,6 +237,9 @@ export function Video({ url, userId }) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("rezise", handleResize);
   }, []);
+  useEffect(() => {
+    getMyLike();
+  }, [userId]);
   return (
     <>
       <div className="container-main">
@@ -201,6 +258,8 @@ export function Video({ url, userId }) {
                   ? null
                   : video.map((vid) => {
                       if (vid._id == url) {
+                        getVideoLikes();
+                        getVideoSuscriber(vid.userId);
                         return (
                           <source
                             src={
@@ -216,7 +275,6 @@ export function Video({ url, userId }) {
                 ? null
                 : video.map((vid) => {
                     if (vid._id === url) {
-                      getVideoSuscriber(vid.userId);
                       return (
                         <>
                           <div className="ytd-video-primary-info-rendered">
@@ -236,8 +294,12 @@ export function Video({ url, userId }) {
                                       sendLikeOrDislike(true);
                                     }}
                                   >
-                                    <img src={likeButton}></img>
-                                    <b>0</b>
+                                    {statusLike === true ? (
+                                      <img src={userLikeButton}></img>
+                                    ) : (
+                                      <img src={likeButton}></img>
+                                    )}
+                                    <b>{counterLikes}</b>
                                   </div>
                                   <div
                                     className="dislike action-button"
@@ -245,7 +307,11 @@ export function Video({ url, userId }) {
                                       sendLikeOrDislike(false);
                                     }}
                                   >
-                                    <img src={dislikeButton}></img>
+                                    {statusLike === false ? (
+                                      <img src={userDisLikeButton}></img>
+                                    ) : (
+                                      <img src={dislikeButton}></img>
+                                    )}
                                     <b>No me gusta</b>
                                   </div>
                                   <div className="share action-button">
