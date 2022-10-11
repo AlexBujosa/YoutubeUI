@@ -20,6 +20,10 @@
     display:flex;
     width:fit-content;
 }
+.left-nav div{
+    display:flex;
+    width:fit-content;
+}
 .center-nav{
     display:flex;
     border-color:gray;

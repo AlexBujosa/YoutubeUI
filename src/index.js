@@ -20,6 +20,7 @@ root.render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App onComponentRender={<Main/>}/>}></Route>
+            <Route path="/results" element={<App onComponentRender={<Main/>}/>}></Route>
             <Route path="watch/:linkId" element={<App onComponentRender={<Watch/>}/>}/>
           </Routes>
         </BrowserRouter>

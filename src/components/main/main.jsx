@@ -6,13 +6,25 @@ import "./main.css";
 import { UserVideo } from "../../context/VideoContext";
 export function Main() {
   const { video, videoViews } = UserVideo();
+  let params = new URL(document.location).searchParams;
+  let search = params.get("search");
   return (
     <div className="container-main">
+      {search === null ? (search = "") : null}
       <div className="container-fluid main">
         <Row>
           {video === null || videoViews === null
             ? null
             : video.map((vid) => {
+                console.log(
+                  !vid.title.toLowerCase().includes(search.toLowerCase()) &&
+                    !vid.name.toLowerCase().includes(search.toLowerCase())
+                );
+                if (
+                  !vid.title.toLowerCase().includes(search.toLowerCase()) &&
+                  !vid.name.toLowerCase().includes(search.toLowerCase())
+                )
+                  return null;
                 return (
                   <Col
                     xs={12}

@@ -106,13 +106,19 @@ export function Navbar(props) {
           title="sidebar"
           onClick={props.openSidebar}
         ></img>
-        <Link to="/" className="link-to logo-youtube" title="Home">
-          <img src={Youtube} alt="youtube" className="youtube"></img>
-          <p>Youtube</p>
-        </Link>
+        <div
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          <Link to="/" className="link-to logo-youtube" title="Home">
+            <img src={Youtube} alt="youtube" className="youtube"></img>
+            <p>Youtube</p>
+          </Link>
+        </div>
       </div>
       <div className="center-nav">
-        <form ref={formRef}>
+        <form ref={formRef} action="http://localhost:3000/results">
           <img
             src={LeftArrow}
             alt="leftArrow"
