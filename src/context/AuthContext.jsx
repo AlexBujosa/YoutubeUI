@@ -30,7 +30,7 @@ export const AuthContextProvider = ({ children }) => {
     });
   };
   const recognizedOrRegisterChannel = (email, name, img) => {
-    fetch("http://localhost:4000/auth/channel", {
+    fetch(`${process.env.REACT_APP_BACKEND_URI}/auth/channel`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -53,7 +53,7 @@ export const AuthContextProvider = ({ children }) => {
       });
   };
   const getAuth = async (email) => {
-    await fetch("http://localhost:4000/getAuth", {
+    await fetch(`${process.env.REACT_APP_BACKEND_URI}/getAuth`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -75,7 +75,7 @@ export const AuthContextProvider = ({ children }) => {
       });
   };
   const GetAllSuscribedChannels = (auth_id) => {
-    fetch("http://localhost:4000/getAllSuscribeChannel", {
+    fetch(`${process.env.REACT_APP_BACKEND_URI}/getAllSuscribeChannel`, {
       method: "POST",
       mode: "cors",
       headers: {

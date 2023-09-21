@@ -16,7 +16,7 @@ export function Comments({ onVideoWidth, onVideoId }) {
     });
   };
   const GetComments = async () => {
-    await fetch("http://localhost:4000/getComments", {
+    await fetch(`${process.env.REACT_APP_BACKEND_URI}/getComments`, {
       method: "POST",
       mode: "cors",
       headers: {

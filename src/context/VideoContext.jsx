@@ -8,7 +8,7 @@ export const VideoContextProvider = ({ children }) => {
   const [videoViews, setVideoViews] = useState(null);
   const [suscribedChannel, setSuscribedChannel] = useState(null);
   const GetVideo = () => {
-    return fetch("http://localhost:4000/", {
+    return fetch(`${process.env.REACT_APP_BACKEND_URI}/`, {
       method: "GET",
     })
       .then((res) => {

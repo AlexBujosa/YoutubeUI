@@ -34,7 +34,7 @@ export function UploaderVideo({ visible, SetVisible }) {
     formData.append("name", user.name);
     formData.append("photo", user.img);
     formData.append("userId", id);
-    fetch("http://localhost:4000/upload/file", {
+    fetch(`${process.env.REACT_APP_BACKEND_URI}/upload/file`, {
       method: "POST",
       body: formData,
     })
@@ -82,6 +82,7 @@ export function UploaderVideo({ visible, SetVisible }) {
 
   const onChangeImgInputFile = () => {
     var reader = new FileReader();
+    console.log(reader);
     reader.onload = function(e) {
       SetVideo(e.target.result);
     };

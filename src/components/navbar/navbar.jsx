@@ -118,7 +118,7 @@ export function Navbar(props) {
         </div>
       </div>
       <div className="center-nav">
-        <form ref={formRef} action="http://localhost:3000/results">
+        <form ref={formRef} action={`${window.location.origin}/results`}>
           <img
             src={LeftArrow}
             alt="leftArrow"
@@ -213,7 +213,7 @@ export function Navbar(props) {
                 src={user.img}
                 alt="user-img"
                 className="user-Img"
-                referrerPolicy="no-referrer"
+                referrerpolicy="no-referrer"
                 onClick={() => {
                   openOption();
                 }}

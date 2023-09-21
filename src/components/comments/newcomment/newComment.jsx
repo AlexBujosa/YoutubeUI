@@ -30,7 +30,7 @@ export function NewComment({
   };
   const submitComment = () => {
     if (commentRef.current.innerText === "") return;
-    fetch("http://localhost:4000/comment", {
+    fetch(`${process.env.REACT_APP_BACKEND_URI}/comment`, {
       method: "POST",
       mode: "cors",
       headers: {

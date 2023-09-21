@@ -16,10 +16,6 @@ export function Main() {
           {video === null || videoViews === null
             ? null
             : video.map((vid) => {
-                console.log(
-                  !vid.title.toLowerCase().includes(search.toLowerCase()) &&
-                    !vid.name.toLowerCase().includes(search.toLowerCase())
-                );
                 if (
                   !vid.title.toLowerCase().includes(search.toLowerCase()) &&
                   !vid.name.toLowerCase().includes(search.toLowerCase())
@@ -38,7 +34,7 @@ export function Main() {
                       <div className="container-col">
                         <div className="video-div">
                           <img
-                            src={"http://127.0.0.1:8887/images/" + vid.photo}
+                            src={`${process.env.REACT_APP_UPLOAD_VIDEO_URI}/images/${vid.photo}`}
                             alt={vid._id}
                             className="picture-video"
                           ></img>

@@ -51,7 +51,7 @@ export function Video({ url, userId }) {
   };
   const getMyLike = async () => {
     if (userId === null) return;
-    await fetch("http://localhost:4000/getMyVideoLike", {
+    await fetch(`${process.env.REACT_APP_BACKEND_URI}/getMyVideoLike`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -74,7 +74,7 @@ export function Video({ url, userId }) {
       });
   };
   const getVideoLikes = async () => {
-    await fetch("http://localhost:4000/getVideoLikes", {
+    await fetch(`${process.env.REACT_APP_BACKEND_URI}/getVideoLikes`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -97,7 +97,7 @@ export function Video({ url, userId }) {
   };
   const sendLikeOrDislike = (typeLike) => {
     if (userId === null) return;
-    fetch("http://localhost:4000/like", {
+    fetch(`${process.env.REACT_APP_BACKEND_URI}/like`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -122,7 +122,7 @@ export function Video({ url, userId }) {
   };
   const regView = () => {
     if (userId === null) return;
-    fetch("http://localhost:4000/register/views", {
+    fetch(`${process.env.REACT_APP_BACKEND_URI}/register/views`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -144,7 +144,7 @@ export function Video({ url, userId }) {
       });
   };
   const getVideoSuscriber = (userUploaderVideo) => {
-    fetch("http://localhost:4000/getVideoSuscriber", {
+    fetch(`${process.env.REACT_APP_BACKEND_URI}/getVideoSuscriber`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -166,7 +166,7 @@ export function Video({ url, userId }) {
   };
   const suscribe = (userUploaderVideo) => {
     if (userId === null) return;
-    fetch("http://localhost:4000/suscribe", {
+    fetch(`${process.env.REACT_APP_BACKEND_URI}/suscribe`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -193,7 +193,7 @@ export function Video({ url, userId }) {
   };
   const unSuscribe = (userUploaderVideo) => {
     if (userId === null) return;
-    fetch("http://localhost:4000/unsuscribe", {
+    fetch(`${process.env.REACT_APP_BACKEND_URI}/unsuscribe`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -262,9 +262,7 @@ export function Video({ url, userId }) {
                         getVideoSuscriber(vid.userId);
                         return (
                           <source
-                            src={
-                              "http://127.0.0.1:8887/uploads/" + vid.videofile
-                            }
+                            src={`${process.env.REACT_APP_UPLOAD_VIDEO_URI}/uploads/${vid.videofile}`}
                             type="video/mp4"
                           />
                         );
@@ -400,9 +398,7 @@ export function Video({ url, userId }) {
                           <div className="compact-video-rendered" key={vid._id}>
                             <div className="img-video-rendered">
                               <img
-                                src={
-                                  "http://127.0.0.1:8887/images/" + vid.photo
-                                }
+                                src={`${process.env.REACT_APP_UPLOAD_VIDEO_URI}/images/${vid.photo}`}
                               ></img>
                             </div>
                             <div className="info-video-rendered">
